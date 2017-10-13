@@ -104,8 +104,23 @@ def addUser():
         lastUser = users[len(users) - 1]
         user.ID = int(lastUser.ID) + 1
 
-    user.Name = input("Type user name: ")
-    user.Phone = input("Type user phone: ")
+    name = ""
+    while 1:
+        name = input("Type user name: ")
+        if not name.__contains__('\"'):
+            break
+        print('User name shouldn\'t contain \" character, please try again!!')
+    user.Name = name
+    del name
+
+    phone = ""
+    while 1:
+        phone = input("Type user phone: ")
+        if not phone.__contains__('\"'):
+            break
+        print('User phone shouldn\'t contain \" character, please try again!!')
+    user.Phone = phone
+    del phone
 
     out = open(FILE_NAME, "a")
     out.write("\n" + user.toString())
