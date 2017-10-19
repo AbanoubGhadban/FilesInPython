@@ -1,82 +1,21 @@
 import os.path
 
+from User import User
 
 FILE_NAME = "users.txt"
 
 
 def getUser(text):
-    text = text.strip()
-    user = User()
-    par = getData(text)
-    if par[0] == "":
-        return None
-
-    user.ID = par[0]
-    text = par[1].strip()
-
-    par = getData(text)
-    user.Name = par[0]
-    text = par[1].strip()
-
-    par = getData(text)
-    user.Phone = par[0]
-    return user
-
-
-def getData(text):
-    if text == "":
-        return ["", ""]
-
-    if text[0] == "\"":
-        length = len(text)
-        i = 0
-        while 1:
-            i += 1
-            if i > (length - 1):
-                return [text[1:], ""]
-
-            if text[i] == "\"":
-                return [text[1:i], text[i + 1:]]
-            elif text[i] == "\n":
-                return ["", text[i + 1:]]
-    return ["", ""]
-
-
-class User:
-    def __init__(self, ID="", Name="", Phone=""):
-        self.ID = ID
-        self.Name = Name
-        self.Phone = Phone
-
-    @property
-    def ID(self):
-        return self._ID
-
-    @ID.setter
-    def ID(self, value):
-        self._ID = value
-
-    @property
-    def Name(self):
-        return self._Name
-
-    @Name.setter
-    def Name(self, value):
-        self._Name = value
-
-    @property
-    def Phone(self):
-        return self._Phone
-
-    @Phone.setter
-    def Phone(self, value):
-        self._Phone = value
-
-    def __repr__(self):
-        return "ID: {0}, Name: {1}, Phone: {2}".format(self.ID, self.Name, self.Phone)
-
-    def toString(self):
-        return "\"{0}\" \"{1}\" \"{2}\"".format(self.ID, self.Name, self.Phone)
+    parts = text.split('\"')
+    if len(parts) == 7:
+        testText = parts[0].strip() + parts[2].strip() + parts[4].strip() + parts[6].strip()
+        if testText == "":
+            user = User()
+            user.ID = parts[1]
+            user.Name = parts[3]
+            user.Phone = parts[5]
+            return user
+    return None
 
 
 users = []
