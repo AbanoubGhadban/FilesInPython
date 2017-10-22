@@ -1,3 +1,6 @@
+import Global
+
+
 class User:
     def __init__(self, ID="", Name="", Phone=""):
         self.ID = ID
@@ -29,7 +32,7 @@ class User:
         self._Phone = value
 
     @staticmethod
-    def tailString(text='', length=0, tailChar=' '):
+    def __tailString(text, length, tailChar=' '):
         text=str(text)
         if len(text) > length:
             return text[:length]
@@ -40,8 +43,6 @@ class User:
         return "ID: {0}, Name: {1}, Phone: {2}".format(self.ID, self.Name, self.Phone)
 
     def toString(self):
-        str = "{0}{1}{2}".format(self.ID, self.Name, self.Phone)
-        if len(str) < 100:
-            str = str + " "*(100 - len(str))
-        return str
-
+        return "{0}{1}{2}".format(User.__tailString(self.ID, Global.USER_ID_LENGTH),
+                                  User.__tailString(self.Name, Global.USER_NAME_LENGTH),
+                                  User.__tailString(self.Phone, Global.USER_PHONE_LENGTH))
