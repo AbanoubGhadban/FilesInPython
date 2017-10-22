@@ -21,7 +21,7 @@ def addUsers(users):
 def getUser(index):
     f = open(FILE_NAME, 'r')
     f.seek(index*USER_STRING_LENGTH)
-    user = Global.getUser(f.read(USER_STRING_LENGTH))
+    user = Global.parseUser(f.read(USER_STRING_LENGTH))
     f.close()
     return user
 
@@ -39,28 +39,38 @@ def getUsers(startIndex=0, count=0):
         if len(usersData) < USER_STRING_LENGTH:
             return users
 
-        user = Global.getUser(usersData[:USER_STRING_LENGTH])
+        user = Global.parseUser(usersData[:USER_STRING_LENGTH])
         if user != None:
-            users.append(Global.getUser(usersData[:USER_STRING_LENGTH]))
+            users.append(Global.parseUser(usersData[:USER_STRING_LENGTH]))
         usersData = usersData[USER_STRING_LENGTH:]
 
 def getUserById(userId):
-    userId = str(userId).strip()
-    #Number of users in file
-    count = int(os.path.getsize(FILE_NAME)/USER_STRING_LENGTH)
+    index = (int(userId) - 1) * USER_STRING_LENGTH
+    if index > os.path.getsize(FILE_NAME) - 1:
+        return None
 
     f = open(FILE_NAME, 'r')
-
-    userData = ''
-    i = 0
-    for i in range(count):
-        f.seek(i*USER_STRING_LENGTH + Global.USER_ID_INDEX)
-        if f.read(Global.USER_ID_LENGTH).strip() == userId:
-            f.seek(i*USER_STRING_LENGTH)
-            userData = f.read(USER_STRING_LENGTH)
+    f.seek(index)
+    userData = f.read(Global.USER_STRING_LENGTH)
+    user = Global.parseUser(userData)
     f.close()
-    user = Global.getUser(userData)
     return user
+    # userId = str(userId).strip()
+    # #Number of users in file
+    # count = int(os.path.getsize(FILE_NAME)/USER_STRING_LENGTH)
+    #
+    # f = open(FILE_NAME, 'r')
+    #
+    # userData = ''
+    # i = 0
+    # for i in range(count):
+    #     f.seek(i*USER_STRING_LENGTH + Global.USER_ID_INDEX)
+    #     if f.read(Global.USER_ID_LENGTH).strip() == userId:
+    #         f.seek(i*USER_STRING_LENGTH)
+    #         userData = f.read(USER_STRING_LENGTH)
+    # f.close()
+    # user = Global.parseUser(userData)
+    # return user
 
 def getUserByName(userName):
     userName = str(userName).strip()
@@ -77,7 +87,7 @@ def getUserByName(userName):
             f.seek(i*USER_STRING_LENGTH)
             userData = f.read(USER_STRING_LENGTH)
     f.close()
-    user = Global.getUser(userData)
+    user = Global.parseUser(userData)
     return user
 
 def getUserByPhone(userPhone):
@@ -95,7 +105,25 @@ def getUserByPhone(userPhone):
             f.seek(i*USER_STRING_LENGTH)
             userData = f.read(USER_STRING_LENGTH)
     f.close()
-    user = Global.getUser(userData)
+    user = Global.parseUser(userData)
+    return user
+
+def getUserByEmail(userPhone):
+    userPhone = str(userPhone).strip()
+    #Number of users in file
+    count = getNumberOfUsers()
+
+    f = open(FILE_NAME, 'r')
+
+    userData = ''
+    i = 0
+    for i in range(count):
+        f.seek(i*USER_STRING_LENGTH + Global.USER_EMAIL_INDEX)
+        if f.read(Global.USER_EMAIL_LENGTH).strip() == userPhone:
+            f.seek(i*USER_STRING_LENGTH)
+            userData = f.read(USER_STRING_LENGTH)
+    f.close()
+    user = Global.parseUser(userData)
     return user
 
 def getNextId():
