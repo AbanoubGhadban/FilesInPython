@@ -5,21 +5,6 @@ from User import User
 
 currentUser = User()
 
-# def fetchUsers():
-#     if os.path.exists(FILE_NAME):
-#         index = 0
-#         file = open(FILE_NAME, "r")
-#         file.seek(0)
-#         for line in file:
-#             user = getUser(line)
-#
-#             if user != None:
-#                 user.Index = index
-#                 users.append(user)
-#             if len(line.strip('\n')) == 100:
-#                 index += 1
-#         file.close()
-
 def addUser():
     user = getUserData()
     user.ID = FileOperations.getNextId()

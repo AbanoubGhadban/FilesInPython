@@ -4,21 +4,6 @@ import Global
 from Global import FILE_NAME, USER_STRING_LENGTH
 from User import User
 
-
-# def getLastUserID():
-#     if not os.path.exists(FILE_NAME):
-#         return 0
-#
-#     size = os.path.getsize(FILE_NAME)
-#     if size < 100:
-#         return 0
-#     else:
-#         f = open(FILE_NAME, 'r')
-#         f.seek(size-100)
-#         userId = int(f.read(10))
-#         f.close()
-#         return userId
-
 def getNumberOfUsers():
     return int(os.path.getsize(FILE_NAME)/USER_STRING_LENGTH)
 
