@@ -57,8 +57,9 @@ def searchByEmail():
 
 def printUsers():
     users = FileOperations.getUsers(0, FileOperations.getNumberOfUsers())
+    print("{0:12}{1:32}{2:32}{3:32}".format('ID', 'Name', 'Phone', 'E-mail'))
     for user in users:
-        print(user)
+        print(user.getPrintableUser())
     print("")
 
 def getUserData():
@@ -70,7 +71,7 @@ def getUserData():
     return user
 
 def modifyUserData(user):
-    print("Type user data in each field (Type nothing in field you don't want to modify")
+    print("Type user data in each field (Type nothing in field you don't want to modify)")
 
     name = input("Type user name: ")
     if name.strip() != '':

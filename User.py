@@ -61,3 +61,35 @@ class User:
                                   User.__tailString(self.Name, Global.USER_NAME_LENGTH),
                                   User.__tailString(self.Phone, Global.USER_PHONE_LENGTH),
                                   User.__tailString(self.Email, Global.USER_EMAIL_LENGTH))
+
+    def getLastAppropIndex(self, text, char, maxIndex):
+        index = text.rfind(char)
+        while index > maxIndex and index > 0:
+            index = text.rfind(char, 0, index)
+
+        if index < 0:
+            return maxIndex
+        return index
+
+    def getPrintableUser(self):
+        nameLines = []
+        tempName = self.Name
+        while 1:
+            if len(tempName) > Global.DISPLAYED_NAME_LENGTH:
+                index = self.getLastAppropIndex(tempName, ' ', Global.DISPLAYED_NAME_LENGTH - 1)
+                nameLines.append(tempName[:index+1])
+                tempName = tempName[index+1:]
+            else:
+                nameLines.append(tempName)
+                break
+
+        idIndent = '{0:' + str(Global.DISPLAYED_ID_LENGTH) + '}  '
+        nameIndent = '{1:' + str(Global.DISPLAYED_NAME_LENGTH) + '}  '
+        phoneIndent = '{2:' + str(Global.DISPLAYED_PHONE_LENGTH) + '}  '
+        emailIndent = '{3:' + str(Global.DISPLAYED_EMAIL_LENGTH) + '}  '
+
+        text = (idIndent + nameIndent + phoneIndent + emailIndent).format(self.ID, nameLines[0], self.Phone, self.Email)
+        for name in nameLines[1:]:
+            text += '\n' + ' '*(Global.DISPLAYED_ID_LENGTH+2) + name
+        return text
+
